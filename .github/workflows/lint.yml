@@ -10,18 +10,20 @@ on:
   pull_request:
     branches: [ main ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  eslint:
+    name: eslint
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: ESLint (JS/TS) Action 
-        uses: iCrawl/action-eslint@v1
+    - uses: actions/checkout@v1
+    - name: install node v12
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12
+    - name: yarn install
+      run: yarn install
+    - name: eslint
+      uses: icrawl/action-eslint@v1
+      with:
+        custom-glob: src
